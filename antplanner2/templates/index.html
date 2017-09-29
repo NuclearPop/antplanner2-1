@@ -35,6 +35,7 @@
           <button type="button" id="load-btn" class="btn">Load</button>
           <button type="button" id="clear-cal-btn" class="btn">Clear</button>
           <button type="button" id="resize-btn" class="btn">Size</button>
+          <button type="button" id="color-btn" class="btn">Color</button>
         </div>
       </div>
       <div id="cal"></div>
@@ -48,6 +49,10 @@
     <script src="{{url_for('static', filename="js/jquery.weekcalendar.js")}}"></script>
     <script src="{{url_for('static', filename="js/antplanner2.js")}}"></script>
     <script>
+      //initializes color
+      var colorPair = getRandomColorPair();
+      document.getElementById("color-btn").style.background=colorPair.color;
+      
       $(document).ready(function() {
         $('#cal').weekCalendar({
           businessHours: {start: 6, end: 24, limitDisplay: true},
@@ -141,7 +146,6 @@
               }
 
               // Assign a color to the courses
-              var colorPair = getRandomColorPair();
               $('.wc-cal-event').each(function(index, el) {
                 var c = $(el).data().calEvent
                 if( c.groupId.indexOf(courseCode) != -1 ) {
@@ -150,7 +154,13 @@
               });
             });
         });
-
+         
+        //changes the current set color and the color of the button
+        $('#color-btn').on('click', function() {
+            var colorPair = getRandomColorPair();
+            document.getElementById("color-btn").style.background=colorPair.color;
+        });
+        
         $('#save-btn').on('click', function() {
           var calData  = JSON.stringify( $('#cal').weekCalendar('serializeEvents') );
 
